@@ -16,6 +16,7 @@ import java.util.Collections;
 @Setter
 @EqualsAndHashCode
 @NoArgsConstructor
+@Entity
 public class AppUser implements UserDetails {
 
     //TODO: zmienic "student_sequence" w SequenceGenerator i GeneratedValue
@@ -79,4 +80,6 @@ public class AppUser implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
+
+
 }
