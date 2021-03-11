@@ -4,7 +4,6 @@ package com.example.storeApplication.registration;
 import lombok.*;
 
 @Getter
-@Setter
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
