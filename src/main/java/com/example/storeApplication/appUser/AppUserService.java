@@ -39,7 +39,7 @@ public class AppUserService implements UserDetailsService {
                 .isPresent();
 
         if (userExists) {
-            //TODO: sprawdzić czy atrybuty sa takie same
+            //TODO: sprawdzić czy atrybuty sa takie same 1:46
             //TODO: if email nie jest potwierdzony, wyslij jeszcze raz
 
             throw new IllegalStateException("email already taken");
