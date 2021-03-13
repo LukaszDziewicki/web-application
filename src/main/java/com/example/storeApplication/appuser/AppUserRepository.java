@@ -1,4 +1,4 @@
-package com.example.storeApplication.appUser;
+package com.example.storeApplication.appuser;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -10,9 +10,9 @@ import java.util.Optional;
 
 @Repository
 @Transactional(readOnly = true)
-public interface AppUserRepository extends JpaRepository<AppUser, Long> {
-
+public interface AppUserRepository extends JpaRepository<AppUser,Long> {
     Optional<AppUser> findByEmail(String email);
+
 
     @Transactional
     @Modifying

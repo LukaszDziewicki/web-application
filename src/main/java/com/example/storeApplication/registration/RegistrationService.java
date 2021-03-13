@@ -1,8 +1,8 @@
 package com.example.storeApplication.registration;
 
-import com.example.storeApplication.appUser.AppUser;
-import com.example.storeApplication.appUser.AppUserRole;
-import com.example.storeApplication.appUser.AppUserService;
+import com.example.storeApplication.appuser.AppUser;
+import com.example.storeApplication.appuser.AppUserRole;
+import com.example.storeApplication.appuser.AppUserService;
 import com.example.storeApplication.email.EmailSender;
 import com.example.storeApplication.registration.token.ConfirmationToken;
 import com.example.storeApplication.registration.token.ConfirmationTokenService;
@@ -23,46 +23,40 @@ public class RegistrationService {
 
     public String register(RegistrationRequest request) {
         boolean isValidEmail = emailValidator.test(request.getEmail());
+
         if (!isValidEmail) {
-            throw new IllegalStateException("Email not valid");
+            throw new IllegalStateException("Email not valid ");
         }
-        String token = appUserService.signUpUser(
-                new AppUser(
-                        request.getFirstName(),
-                        request.getLastName(),
-                        request.getEmail(),
-                        request.getPassword(),
-                        AppUserRole.USER_ROLE
-                )
-        );
+        String token = appUserService.singUpUser(new AppUser(
+                request.getFirstName(),
+                request.getLastName(),
+                request.getEmail(),
+                request.getPassword(),
+                AppUserRole.USER_ROLE
+        ));
         String link = "http://localhost:8080/api/v1/registration/confirm?token=" + token;
-        emailSender.send(request.getEmail(),
-                buildEmail(request.getFirstName(),
-                link));
+        emailSender.send(request.getEmail(), buildEmail(request.getFirstName(), link));
         return token;
     }
 
     @Transactional
     public String confirmToken(String token) {
-        ConfirmationToken confirmationToken = confirmationTokenService
-                .getToken(token)
+        ConfirmationToken confirmationToken = confirmationTokenService.getToken(token)
                 .orElseThrow(() ->
-                        new IllegalStateException("token not found"));
-
+                        new IllegalStateException("Token not found"));
         if (confirmationToken.getConfirmedAt() != null) {
-            throw new IllegalStateException("email already confirmed");
+            throw new IllegalStateException("Email already confirmed");
         }
 
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();
 
         if (expiredAt.isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("token expired");
+            throw new IllegalStateException("Token expired");
         }
-
         confirmationTokenService.setConfirmedAt(token);
-        appUserService.enableAppUser(
-                confirmationToken.getAppUser().getEmail());
-        return "confirmed";
+        appUserService.enableAppUser(confirmationToken.getAppUser().getEmail());
+
+        return "Confirmed";
     }
 
     private String buildEmail(String name, String link) {

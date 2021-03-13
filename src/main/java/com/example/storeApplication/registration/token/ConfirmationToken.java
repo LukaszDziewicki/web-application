@@ -1,7 +1,7 @@
 package com.example.storeApplication.registration.token;
 
-import com.example.storeApplication.appUser.AppUser;
-import lombok.AllArgsConstructor;
+
+import com.example.storeApplication.appuser.AppUser;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,11 +20,11 @@ public class ConfirmationToken {
             sequenceName = "confirmation_token_sequence",
             allocationSize = 1
     )
+    @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
             generator = "confirmation_token_sequence"
     )
-    @Id
     private Long id;
     @Column(nullable = false)
     private String token;
@@ -35,17 +35,11 @@ public class ConfirmationToken {
     private LocalDateTime confirmedAt;
 
     @ManyToOne
-    @JoinColumn(
-            nullable = false,
-            name = "app_user_id"
-
-    )
+    @JoinColumn(nullable = false,
+            name = "app_user_id")
     private AppUser appUser;
 
-    public ConfirmationToken(String token,
-                             LocalDateTime createdAt,
-                             LocalDateTime expiresAt,
-                             AppUser appUser) {
+    public ConfirmationToken(String token, LocalDateTime createdAt, LocalDateTime expiresAt, AppUser appUser) {
         this.token = token;
         this.createdAt = createdAt;
         this.expiresAt = expiresAt;

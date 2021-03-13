@@ -1,4 +1,4 @@
-package com.example.storeApplication.appUser;
+package com.example.storeApplication.appuser;
 
 public enum AppUserRole {
     ADMIN_ROLE,

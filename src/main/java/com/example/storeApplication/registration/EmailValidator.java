@@ -9,7 +9,7 @@ public class EmailValidator implements Predicate<String> {
 
     @Override
     public boolean test(String s) {
-        //TODO: Dodać Regex'a, która sprawdza czy email pasuje do wzorca
+        // TODO regex - walidacja maila
         return true;
     }
 }

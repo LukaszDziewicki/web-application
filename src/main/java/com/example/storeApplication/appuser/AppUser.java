@@ -1,4 +1,4 @@
-package com.example.storeApplication.appUser;
+package com.example.storeApplication.appuser;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -12,6 +12,7 @@ import javax.persistence.*;
 import java.util.Collection;
 import java.util.Collections;
 
+
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -19,18 +20,17 @@ import java.util.Collections;
 @Entity
 public class AppUser implements UserDetails {
 
-    //TODO: zmienic "student_sequence" w SequenceGenerator i GeneratedValue
 
     @SequenceGenerator(
-            name = "student_sequence",
-            sequenceName = "student_sequence",
+            name = "user_sequence",
+            sequenceName = "user_sequence",
             allocationSize = 1
     )
+    @Id
     @GeneratedValue(
             strategy = GenerationType.SEQUENCE,
-            generator = "student_sequence"
+            generator = "user_sequence"
     )
-    @Id
     private Long id;
     private String firstName;
     private String lastName;
@@ -41,7 +41,11 @@ public class AppUser implements UserDetails {
     private Boolean locked = false;
     private Boolean enabled = false;
 
-    public AppUser(String firstName, String lastName, String email, String password, AppUserRole appUserRole) {
+    public AppUser(String firstName,
+                   String lastName,
+                   String email,
+                   String password,
+                   AppUserRole appUserRole) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -57,9 +61,23 @@ public class AppUser implements UserDetails {
     }
 
     @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
     public String getUsername() {
         return email;
     }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
 
     @Override
     public boolean isAccountNonExpired() {
@@ -80,6 +98,4 @@ public class AppUser implements UserDetails {
     public boolean isEnabled() {
         return enabled;
     }
-
-
 }
